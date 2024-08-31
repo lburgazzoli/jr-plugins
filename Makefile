@@ -46,7 +46,8 @@ endif
 
 PLUGINS=mongodb \
         azblobstorage \
-		luascript
+		luascript \
+		awsdynamodb
 
 hello:
 	@echo "JR Plugins"

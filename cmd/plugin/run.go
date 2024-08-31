@@ -28,6 +28,7 @@ import (
 
 	hashiplugin "github.com/hashicorp/go-plugin"
 	"github.com/jrnd-io/jr-plugins/internal/plugin"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/awsdynamodb"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/azblobstorage"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/luascript"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/mongodb"
