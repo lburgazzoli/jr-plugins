@@ -38,11 +38,11 @@ import (
 
 const (
 	ScriptName = "luajr"
-	PluginName = "luascript"
+	Name       = "luascript"
 )
 
 func init() {
-	plugin.RegisterPlugin(PluginName, &Plugin{})
+	plugin.RegisterPlugin(Name, &Plugin{})
 }
 
 type Plugin struct {
@@ -55,7 +55,10 @@ func (p *Plugin) Init(_ context.Context, cfgBytes []byte) error {
 	if err := json.Unmarshal(cfgBytes, &config); err != nil {
 		return err
 	}
+	return p.InitFromConfig(config)
+}
 
+func (p *Plugin) InitFromConfig(config Config) error {
 	var err error
 	if config.Script == "" && config.ScriptFile == "" {
 		return fmt.Errorf("script or script_file is required")

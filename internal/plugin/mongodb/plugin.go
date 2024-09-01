@@ -43,8 +43,12 @@ type Config struct {
 	Collection string `json:"collection"`
 }
 
+const (
+	Name = "mongodb"
+)
+
 func init() {
-	plugin.RegisterPlugin("mongodb", &Plugin{})
+	plugin.RegisterPlugin(Name, &Plugin{})
 }
 
 type Plugin struct {

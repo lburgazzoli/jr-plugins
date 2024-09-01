@@ -49,7 +49,10 @@ PLUGINS=mongodb \
         azcosmosdb \
 		luascript \
 		awsdynamodb \
-		cassandra
+		s3 \
+		cassandra \
+		gcs \
+		elastic
 
 hello:
 	@echo "JR Plugins"

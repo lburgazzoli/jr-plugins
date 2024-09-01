@@ -22,7 +22,6 @@
 package luascript_test
 
 import (
-	"context"
 	"testing"
 
 	"github.com/jrnd-io/jr-plugins/internal/plugin/luascript"
@@ -56,9 +55,11 @@ func TestProducer(t *testing.T) {
 
 		t.Run(tc.name, func(_ *testing.T) {
 			p := &luascript.Plugin{}
-			p.InitializeFromConfig(tc.config)
-			_, err := p.Produce(context.TODO(),
-				[]byte("somekey"),
+			err := p.InitFromConfig(tc.config)
+			if err != nil {
+				t.Error(err)
+			}
+			_, err = p.Produce([]byte("somekey"),
 				[]byte(someJSON),
 				map[string]string{
 					"h1": "v1",

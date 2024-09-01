@@ -36,8 +36,12 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+const (
+	Name = "azblobstorage"
+)
+
 func init() {
-	plugin.RegisterPlugin("azblobstorage", &Plugin{})
+	plugin.RegisterPlugin(Name, &Plugin{})
 }
 
 type Plugin struct {

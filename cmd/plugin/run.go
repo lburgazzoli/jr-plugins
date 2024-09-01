@@ -32,8 +32,11 @@ import (
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/azblobstorage"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/azcosmosdb"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/cassandra"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/elastic"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/gcs"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/luascript"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/mongodb"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/s3"
 	"github.com/jrnd-io/jrv2/pkg/jrpc"
 )
 

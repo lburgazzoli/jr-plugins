@@ -36,8 +36,12 @@ import (
 	"github.com/jrnd-io/jrv2/pkg/jrpc"
 )
 
+const (
+	Name = "awsdynamodb"
+)
+
 func init() {
-	plugin.RegisterPlugin("azblobstorage", &Plugin{})
+	plugin.RegisterPlugin(Name, &Plugin{})
 }
 
 type Plugin struct {
