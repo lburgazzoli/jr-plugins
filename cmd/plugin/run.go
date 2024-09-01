@@ -34,6 +34,7 @@ import (
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/cassandra"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/elastic"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/gcs"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/http"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/luascript"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/mongodb"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/s3"

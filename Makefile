@@ -52,7 +52,8 @@ PLUGINS=mongodb \
 		s3 \
 		cassandra \
 		gcs \
-		elastic
+		elastic \
+		http
 
 hello:
 	@echo "JR Plugins"
