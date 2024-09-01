@@ -20,6 +20,7 @@ require (
 	github.com/hashicorp/go-plugin v1.6.1
 	github.com/jarcoal/httpmock v1.3.1
 	github.com/jrnd-io/jrv2 v0.0.0-20240830145651-429c53770178
+	github.com/redis/go-redis/v9 v9.6.1
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.8.1
 	github.com/vadv/gopher-lua-libs v0.5.0
@@ -60,6 +61,7 @@ require (
 	github.com/cbroglie/mustache v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cheggaaa/pb/v3 v3.0.5 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/elastic/elastic-transport-go/v8 v8.6.0 // indirect
 	github.com/fatih/color v1.16.0 // indirect

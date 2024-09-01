@@ -37,6 +37,7 @@ import (
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/http"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/luascript"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/mongodb"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/redis"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/s3"
 	"github.com/jrnd-io/jrv2/pkg/jrpc"
 )

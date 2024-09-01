@@ -53,6 +53,7 @@ PLUGINS=mongodb \
 		cassandra \
 		gcs \
 		elastic \
+		redis \
 		http
 
 hello:
