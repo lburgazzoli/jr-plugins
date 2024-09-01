@@ -55,6 +55,10 @@ PLUGINS=mongodb \
 		elastic \
 		redis \
 		http
+comma:= ,
+empty:=
+space:= $(empty) $(empty)
+build_tags:=$(subst $(space),$(comma),$(PLUGINS))
 
 hello:
 	@echo "JR Plugins"
@@ -86,10 +90,10 @@ clean:
 
 test:
 	go clean -testcache
-	go test ./...
+	go test -tags $(build_tags) ./...
 
 test_coverage:
-	go test ./... -coverprofile=coverage.out
+	go test  ./... -coverprofile=coverage.out
 
 dep:
 	go mod download
