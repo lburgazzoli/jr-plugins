@@ -1,0 +1,6 @@
+{
+  "es_uri": "http://localhost:9200",
+  "index": "jr",
+  "username": "admin",
+  "password": "password"
+}
