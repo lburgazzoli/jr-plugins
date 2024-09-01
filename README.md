@@ -39,8 +39,8 @@ To build a plugin `someplugin` the following steps are needed:
   - the plugin should implement the ´plugin.Plugin´ interface type:
   ```golang
   type Plugin interface {
-	jrpc.Producer
-	Init(context.Context, []byte) error
+    jrpc.Producer
+    Init(context.Context, []byte) error
 }
 ```
   - in the `plugin.go` file register the plugin:
@@ -49,13 +49,13 @@ To build a plugin `someplugin` the following steps are needed:
 package someplugin
 ...
 import (
-    	"github.com/jrnd-io/jr-plugins/internal/plugin"
+        "github.com/jrnd-io/jr-plugins/internal/plugin"
 )
 const (
-	Name = "someplugin"
+    Name = "someplugin"
 )
 func init() {
-	plugin.RegisterPlugin(Name, &Plugin{})
+    plugin.RegisterPlugin(Name, &Plugin{})
 }
 type Plugin struct{
 ...
@@ -75,7 +75,7 @@ func (p *Plugin) Produce(k []byte, v []byte, headers map[string]string) (*jrpc.P
 
   import(
     ...
-	_ "github.com/jrnd-io/jr-plugins/internal/plugin/someplugin"
+    _ "github.com/jrnd-io/jr-plugins/internal/plugin/someplugin"
   )
   ```
    - add `someplugin`  to the list of plugins in `Makefile``
@@ -83,13 +83,13 @@ func (p *Plugin) Produce(k []byte, v []byte, headers map[string]string) (*jrpc.P
 PLUGINS=mongodb \
         azblobstorage \
         azcosmosdb \
-		luascript \
-		awsdynamodb \
-		s3 \
-		cassandra \
-		gcs \
-		elastic \
-		redis \
-		http \
+        luascript \
+        awsdynamodb \
+        s3 \
+        cassandra \
+        gcs \
+        elastic \
+        redis \
+        http \
         someplugin
 ```
