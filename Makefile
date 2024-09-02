@@ -54,7 +54,8 @@ PLUGINS=mongodb \
 		gcs \
 		elastic \
 		redis \
-		http
+		http \
+		plugin_wasm
 comma:= ,
 empty:=
 space:= $(empty) $(empty)

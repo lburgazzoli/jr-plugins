@@ -39,6 +39,7 @@ import (
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/mongodb"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/redis"
 	_ "github.com/jrnd-io/jr-plugins/internal/plugin/s3"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/wasm"
 	"github.com/jrnd-io/jrv2/pkg/jrpc"
 )
 
