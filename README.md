@@ -32,8 +32,8 @@ To build a plugin `someplugin` the following steps are needed:
 2. implement the plugin in a file (e.g. `plugin.go`) with the following requirements:
   - the `plugin.go` file should have conditional build directives:
   ```golang
-  //go:build someplugin
-  // +build someplugin
+  //go:build plugin_someplugin
+  // +build plugin_someplugin
   ```
   - a `doc.go` without conditional build directives must be included (with the plugin documentation)
   - the plugin should implement the ´plugin.Plugin´ interface type:

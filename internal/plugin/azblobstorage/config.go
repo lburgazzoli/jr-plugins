@@ -1,5 +1,5 @@
-//go:build azblobstorage
-// +build azblobstorage
+//go:build plugin_azblobstorage
+// +build plugin_azblobstorage
 
 // Copyright © 2024 JR team
 //

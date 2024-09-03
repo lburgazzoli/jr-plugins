@@ -1,5 +1,5 @@
-//go:build redis
-// +build redis
+//go:build plugin_redis
+// +build plugin_redis
 
 // Copyright © 2024 JR team
 //

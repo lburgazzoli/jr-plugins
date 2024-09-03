@@ -55,11 +55,12 @@ PLUGINS=mongodb \
 		elastic \
 		redis \
 		http \
-		plugin_wasm
+		wasm
 comma:= ,
 empty:=
 space:= $(empty) $(empty)
-build_tags:=$(subst $(space),$(comma),$(PLUGINS))
+prefix:= plugin_
+build_tags:= $(subst $(space),$(comma),$(addprefix $(prefix),$(PLUGINS)))
 
 hello:
 	@echo "JR Plugins"
@@ -76,11 +77,12 @@ compile: hello lint test
 	@echo "Compiling"
 	for plugin in $(PLUGINS); do \
 	    echo "building plugin jr-$$plugin"; \
+		echo "building plugin $(prefix)$$plugin"; \
 		go build -v -ldflags="-X 'main.Version=$(VERSION)' \
 		-X 'main.GoVersion=$(GOVERSION)' \
 		-X 'main.BuildUser=$(USER)' \
 		-X 'main.BuildTime=$(TIME)'" \
-		-tags $$plugin \
+		-tags $(prefix)$$plugin \
 		-o build/jr-$$plugin github.com/jrnd-io/jr-plugins/cmd/plugin; \
 	done
 

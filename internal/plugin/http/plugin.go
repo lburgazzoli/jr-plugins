@@ -1,5 +1,5 @@
-//go:build http
-// +build http
+//go:build plugin_http
+// +build plugin_http
 
 // Copyright © 2024 JR team
 //

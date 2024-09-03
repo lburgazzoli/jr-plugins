@@ -1,5 +1,5 @@
-//go:build awsdynamodb
-// +build awsdynamodb
+//go:build plugin_awsdynamodb
+// +build plugin_awsdynamodb
 
 // Copyright © 2024 JR team
 //
