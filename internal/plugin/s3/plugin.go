@@ -1,5 +1,5 @@
-//go:build s3
-// +build s3
+//go:build plugin_s3
+// +build plugin_s3
 
 // Copyright © 2024 JR team
 //

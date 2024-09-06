@@ -1,5 +1,5 @@
-//go:build azcosmosdb
-// +build azcosmosdb
+//go:build plugin_azcosmosdb
+// +build plugin_azcosmosdb
 
 // Copyright © 2024 JR team
 //

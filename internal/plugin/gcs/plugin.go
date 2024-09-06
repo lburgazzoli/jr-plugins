@@ -1,5 +1,5 @@
-//go:build gcs
-// +build gcs
+//go:build plugin_gcs
+// +build plugin_gcs
 
 // Copyright © 2024 JR team
 //

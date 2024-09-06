@@ -1,5 +1,5 @@
-//go:build cassandra
-// +build cassandra
+//go:build plugin_cassandra
+// +build plugin_cassandra
 
 // Copyright © 2024 JR team
 //

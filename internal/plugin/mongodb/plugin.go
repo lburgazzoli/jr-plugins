@@ -1,5 +1,5 @@
-//go:build mongodb
-// +build mongodb
+//go:build plugin_mongodb
+// +build plugin_mongodb
 
 // Copyright © 2024 JR team
 //

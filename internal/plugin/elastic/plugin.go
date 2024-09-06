@@ -1,5 +1,5 @@
-//go:build elastic
-// +build elastic
+//go:build plugin_elastic
+// +build plugin_elastic
 
 // Copyright © 2024 JR team
 //

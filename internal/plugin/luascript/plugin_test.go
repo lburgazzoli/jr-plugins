@@ -1,5 +1,5 @@
-//go:build luascript
-// +build luascript
+//go:build plugin_luascript
+// +build plugin_luascript
 
 // Copyright © 2024 JR team
 // Permission is hereby granted, free of charge, to any person obtaining a copy

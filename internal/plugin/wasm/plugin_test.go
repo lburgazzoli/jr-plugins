@@ -1,5 +1,5 @@
-//go:build plugin_azblobstorage
-// +build plugin_azblobstorage
+//go:build plugin_wasm
+// +build plugin_wasm
 
 // Copyright © 2024 JR team
 //
@@ -20,14 +20,42 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-package azblobstorage
+package wasm_test
 
-type Container struct {
-	Name   string `json:"name"`
-	Create bool   `json:"create"`
-}
-type Config struct {
-	AccountName       string    `json:"account_name"`
-	PrimaryAccountKey string    `json:"primary_account_key"`
-	Container         Container `json:"container"`
+import (
+	"context"
+	"github.com/jrnd-io/jr-plugins/internal/plugin/wasm"
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
+
+func TestWASMPlugin(t *testing.T) {
+
+	testCases := []struct {
+		name   string
+		config wasm.Config
+	}{
+		{
+			name: "testprint",
+			config: wasm.Config{
+				ModulePath: "plugin_test_function.wasm",
+				BindStdout: true,
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			p := &wasm.Plugin{}
+
+			ctx := context.Background()
+
+			err := p.InitializeFromConfig(ctx, tc.config)
+			assert.NoError(t, err)
+
+			_, err = p.Produce([]byte("somekey"), []byte("someval"), nil)
+			assert.NoError(t, err)
+		})
+
+	}
 }
