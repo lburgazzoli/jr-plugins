@@ -15,6 +15,7 @@ Currently the following plugins are included:
 - `mongodb`
 - `redis`
 - `s3`
+- `wasm`
 
 
 # Building the plugins
