@@ -1,6 +1,6 @@
 # JR Plugins
 
-Lists of plugin for JR.
+Lists of producer plugins for JR.
 Currently the following plugins are included:
 
 
