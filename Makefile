@@ -4,6 +4,13 @@ USER=$(shell id -u -n)
 TIME=$(shell date)
 JR_HOME=jr
 
+GOLANCI_LINT_VERSION ?= v1.61.0
+GOVULNCHECK_VERSION ?= latest
+
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+PROJECT_PATH := $(patsubst %/,%,$(dir $(MKFILE_PATH)))
+LOCALBIN := $(PROJECT_PATH)/bin
+
 ifndef XDG_DATA_DIRS
 ifeq ($(OS), Windows_NT)
 	detectedOS := Windows
@@ -12,16 +19,16 @@ else
 endif
 
 ifeq ($(detectedOS), Darwin)
-	JR_SYSTEM_DIR="$(HOME)/Library/Application Support"
+	JR_SYSTEM_DIR=/Library/Application Support
 endif
 ifeq ($(detectedOS),  Linux)
-	JR_SYSTEM_DIR="$(HOME)/.config"
+	JR_SYSTEM_DIR=/usr/local/share
 endif
 ifeq ($(detectedOS), Windows_NT)
-	JR_SYSTEM_DIR="$(LOCALAPPDATA)"
+	JR_SYSTEM_DIR=$(APPDATA)
 endif
 else
-	JR_SYSTEM_DIR=$(XDG_DATA_DIRS)
+	JR_SYSTEM_DIR=$(XDG_DATA_DIRS[0])
 endif
 
 ifndef XDG_DATA_HOME
@@ -32,13 +39,13 @@ else
 endif
 
 ifeq ($(detectedOS), Darwin)
-	JR_USER_DIR="$(HOME)/.local/share"
+	JR_USER_DIR=$(HOME)/Library/Application Support
 endif
 ifeq ($(detectedOS),  Linux)
-	JR_USER_DIR="$(HOME)/.local/share"
+	JR_USER_DIR=$(HOME)/.local/share
 endif
 ifeq ($(detectedOS), Windows_NT)
-	JR_USER_DIR="$(LOCALAPPDATA)" //@TODO
+	JR_USER_DIR=$(LOCALAPPDATA)
 endif
 else
 	JR_USER_DIR=$(XDG_DATA_HOME)
@@ -104,8 +111,17 @@ dep:
 vet:
 	go vet
 
-lint:
-	golangci-lint run --config .localci/lint/golangci.yml
+.PHONY: lint
+lint: golangci-lint
+	$(LOCALBIN)/golangci-lint cache clean
+	$(LOCALBIN)/golangci-lint run --config .localci/lint/golangci.yml
+
+.PHONY: vuln
+vuln: govulncheck
+	$(LOCALBIN)/govulncheck -show verbose ./...
+
+.PHONY: check
+check: vet lint vuln
 
 help: hello
 	@echo ''
@@ -113,6 +129,28 @@ help: hello
 	@echo '  ${YELLOW}make${RESET} ${GREEN}all${RESET}'
 	@echo ''
 
+install: pluginsdir
+	for plugin in $(PLUGINS); do \
+	 echo "installing plugin jr-$$plugin"; \
+	 install build/jr-$$plugin "$(JR_SYSTEM_DIR)/jr/plugins/"; \
+	done
 
 all: hello compile
 all_offline: hello compile
+
+
+$(LOCALBIN):
+	mkdir -p $(LOCALBIN)
+
+.PHONY: golangci-lint
+golangci-lint: $(LOCALBIN)
+	@test -s $(LOCALBIN)/golangci-lint || \
+	GOBIN=$(LOCALBIN) go install github.com/golangci/golangci-lint/cmd/golangci-lint@$(GOLANCI_LINT_VERSION)
+
+.PHONY: govulncheck
+govulncheck: $(LOCALBIN)
+	@test -s $(LOCALBIN)/govulncheck || \
+	GOBIN=$(LOCALBIN) go install golang.org/x/vuln/cmd/govulncheck@$(GOVULNCHECK_VERSION)
+
+pluginsdir:
+	mkdir -p "$(JR_SYSTEM_DIR)/jr/plugins"
