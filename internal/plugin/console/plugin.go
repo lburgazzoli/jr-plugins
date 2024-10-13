@@ -1,3 +1,6 @@
+//go:build plugin_console
+// +build plugin_console
+
 // Copyright © 2024 JR team
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -17,15 +20,47 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-package main
+
+package console
 
 import (
-	"github.com/spf13/cobra"
+	"context"
+	"fmt"
+
+	"github.com/jrnd-io/jr-plugins/internal/plugin"
+	"github.com/jrnd-io/jrv2/pkg/jrpc"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "jrplugin",
-	Short: "jrplugin, a plugin for jr",
-	Long:  "jrplugin is a plugin system for jr",
-	Run:   run,
+const (
+	Name = "console"
+)
+
+func init() {
+	plugin.RegisterPlugin(Name, &Plugin{})
+}
+
+type Plugin struct{}
+
+func (p *Plugin) Init(_ context.Context, _ []byte) error {
+	// No initialization needed for console plugin
+	return nil
+}
+
+func (p *Plugin) Close(_ context.Context) error {
+	// No cleanup needed for console plugin
+	return nil
+}
+
+func (p *Plugin) Produce(k []byte, v []byte, headers map[string]string) (*jrpc.ProduceResponse, error) {
+	fmt.Printf("Key: %s\n", string(k))
+	fmt.Printf("Value: %s\n", string(v))
+	fmt.Println("Headers:")
+	for key, value := range headers {
+		fmt.Printf("  %s: %s\n", key, value)
+	}
+
+	return &jrpc.ProduceResponse{
+		Bytes:   uint64(len(v)),
+		Message: "Printed to console",
+	}, nil
 }
