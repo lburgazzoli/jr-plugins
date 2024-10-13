@@ -52,6 +52,7 @@ else
 endif
 
 PLUGINS=mongodb \
+		console \
         azblobstorage \
         azcosmosdb \
 		luascript \
