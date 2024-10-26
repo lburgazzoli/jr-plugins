@@ -20,12 +20,78 @@
 package main
 
 import (
+	"context"
+	"os"
+
+	hashiplugin "github.com/hashicorp/go-plugin"
+	"github.com/jrnd-io/jr-plugins/internal/plugin"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/awsdynamodb"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/azblobstorage"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/azcosmosdb"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/cassandra"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/elastic"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/gcs"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/http"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/luascript"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/mongodb"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/redis"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/s3"
+	_ "github.com/jrnd-io/jr-plugins/internal/plugin/wasm"
+	"github.com/jrnd-io/jrv2/pkg/jrpc"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "jrplugin",
-	Short: "jrplugin, a plugin for jr",
-	Long:  "jrplugin is a plugin system for jr",
-	Run:   run,
+var (
+	rootCmd = &cobra.Command{
+		Use:   "run",
+		Short: "Run plugin",
+		Long:  "Run plugin",
+		Run:   run,
+	}
+	cfgFile  string
+	cfgBytes []byte
+)
+
+func init() {
+
+	cobra.OnInitialize(readConfig)
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
+}
+
+func readConfig() {
+	var err error
+
+	if cfgFile != "" {
+		cfgBytes, err = os.ReadFile(cfgFile)
+		if err != nil {
+			log.Fatal().Err(err).Msg("failed to read config file")
+
+		}
+	}
+
+}
+
+func run(_ *cobra.Command, _ []string) {
+	// check registered plugin
+
+	p := plugin.GetPlugin()
+	if p == nil {
+		log.Fatal().Msg("plugin instance is null")
+	}
+
+	// init plugin
+	err := p.Init(context.Background(), cfgBytes)
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to initialize plugin")
+	}
+
+	hashiplugin.Serve(&hashiplugin.ServeConfig{
+		HandshakeConfig: jrpc.Handshake,
+		Plugins: map[string]hashiplugin.Plugin{
+			"jr-plugin": &jrpc.ProducerGRPCPlugin{Impl: p},
+		},
+		GRPCServer: hashiplugin.DefaultGRPCServer,
+	})
+
 }
