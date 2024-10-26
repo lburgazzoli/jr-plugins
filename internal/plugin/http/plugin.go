@@ -28,7 +28,6 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
 	"time"
@@ -151,6 +150,7 @@ func (p *Plugin) Produce(k []byte, v []byte, headers map[string]string) (*jrpc.P
 
 	// creating request
 	req := p.client.R().
+		SetHeaders(headers).
 		SetBody(v)
 
 	var resp *resty.Response
@@ -167,21 +167,17 @@ func (p *Plugin) Produce(k []byte, v []byte, headers map[string]string) (*jrpc.P
 	if err != nil {
 		return nil, err
 	}
-	defer resp.RawResponse.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.RawResponse.Body)
-	if err != nil {
-		return nil, err
-	}
 
 	if resp.StatusCode() != p.configuration.ErrorHandling.ExpectStatusCode &&
 		!p.configuration.ErrorHandling.IgnoreStatusCode {
 		return nil, fmt.Errorf("Unexpected status code: %d", resp.StatusCode())
 	}
 
+	sBody := string(resp.Body())
+
 	return &jrpc.ProduceResponse{
 		Bytes:   uint64(len(v)),
-		Message: string(body),
+		Message: sBody,
 	}, nil
 
 }
